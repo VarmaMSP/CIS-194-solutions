@@ -1,7 +1,7 @@
 module Fibonacci where
 
 ----------- Exercise 1 ------------
-fib :: Integer -> Interger
+fib :: Integer -> Integer
 fib 0 = 0
 fib 1 = 1
 fin n = fib (n-1) + fib (n-2)
@@ -27,14 +27,24 @@ streamRepeat :: a -> Stream a
 streamRepeat x = Cons x (streamRepeat x)
 
 streamMap :: (a -> b) -> Stream a -> Stream b
-streamMap f (Cons x xs) = cons (f x) (streamMap xs)
+streamMap f (Cons x xs) = Cons (f x) (streamMap f xs)
 
 streamFromSeed :: (a -> a) -> a -> Stream a
-streamFromSeed f x = const (f x) (stream f $ f x)
+streamFromSeed f x = Cons (f x) (streamFromSeed f (f $ f x))
 
 ----------- Exercise 5 ------------
 nats :: Stream Integer
 nats = gen 0
   where
-    gen :: Integer -> Stream
+    gen :: Integer -> Stream Integer
     gen x = Cons x (gen (x+1))
+
+ruler :: Stream Integer
+ruler = gen 1
+  where
+    maxPower :: Integer -> Integer
+    maxPower x | even x    = 1 + maxPower (x `div` 2)
+               | otherwise = 0
+
+    gen :: Integer -> Stream Integer
+    gen x = Cons (maxPower x) (gen (x+1))
