@@ -1,38 +1,41 @@
 {-# OPTIONS_GHC -Wall #-}
 {-# LANGUAGE TypeSynonymInstances #-}
+
 module Cal where
+
+import qualified Data.Map as M
 
 import ExprT
 import Parser
 
--- Exercise 1
+-------------- Exercise 1 ---------------
 eval :: ExprT -> Integer
 eval (Lit x)   = x
 eval (Add x y) = (eval x) + (eval y)
 eval (Mul x y) = (eval x) * (eval y)
 
--- Exercise 2
+------------- Exercise 2 ----------------
 evalStr :: String -> Maybe Integer
 evalStr str =
   case parseExp Lit Add Mul str of
     Just expr -> Just (eval expr)
     Nothing   -> Nothing
 
--- Exercise 3
+------------- Exercise 3 ---------------
 class Expr a where
   lit :: Integer -> a
   add :: a -> a -> a
   mul :: a -> a -> a
 
 instance Expr ExprT where
-  lit = Lit
-  add = Add
-  mul = Mul
+  lit = ExprT.Lit
+  add = ExprT.Add
+  mul = ExprT.Mul
 
 reify :: ExprT -> ExprT
 reify = id
 
--- Exercise 4
+----------- Exercise 4 ---------------
 newtype MinMax = MinMax Integer deriving (Eq, Show)
 newtype Mod7 = Mod7 Integer deriving (Eq, Show)
 
@@ -64,7 +67,7 @@ testBool    = testExp :: Maybe Bool
 testMM      = testExp :: Maybe MinMax
 testSat     = testExp :: Maybe Mod7
 
--- Exercise 5
+-------------- Exercise 5 ---------------
 instance expr StackVM.Program where
   lit x   = [StackVM.PushI x]
   add x y = x ++ y ++ [StackVM.Add]
@@ -73,4 +76,4 @@ instance expr StackVM.Program where
 compile :: String -> Maybe Program
 compile = ParseExp lit add mul
 
--- Exercise 6
+------------- Exercise 6 ----------------
