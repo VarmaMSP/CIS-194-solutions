@@ -1,7 +1,7 @@
 {-# OPTIONS_GHC -Wall #-}
 module Solution where
 
--- Exercise 1
+--------------- Exercise 1 -----------------
 fun1 :: [Integer] -> Integer
 fun1 = product . map (subtract 2) . filter even
 
@@ -11,7 +11,7 @@ fun2 = sum
      . takewhile (>1)
      . iterate (\x -> if even x then (x `div` 2) else (3 * x + 1))
 
--- Exercise 2
+--------------- Exercise 2 -----------------
 data Tree a
     = Leaf
     | Node Integer (Tree a) a (Tree a)
@@ -38,7 +38,7 @@ isBalanced (Node _ left@(Node lh _ _ _) _ right@(Node rh _ _ _))
                           = isBalanced left && abs (rh - lh) <= 1 && isBalanced right
 isBalanced (Node _ _ _ _) = False
 
--- Exercise 3
+----------------- Exercise 3 ----------------
 xor :: [Bool] -> Bool
 xor = foldr (/=) True
     . filter id
@@ -55,4 +55,4 @@ myfoldl f = foldr (g f)
     g :: (a -> b -> a) -> b -> a -> a
     g f' x y = f' y x
 
--- Exercise 4
+--------------- Exercise 4 ------------------
