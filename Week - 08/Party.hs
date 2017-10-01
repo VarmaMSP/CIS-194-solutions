@@ -9,7 +9,7 @@ import Employee
 
 -------------- Exercise 1 ---------------
 glCons :: Employee -> GuestList -> GuestList
-glCons emp (GL emps fun) = GL (emp : emps) (fun + (empFun emp))
+glCons emp (GL emps fun) = GL (emp : emps) ((empFun emp) + fun)
 
 instance Monoid GuestList where
   mempty = GL [] 0
@@ -39,9 +39,9 @@ maxFun = (uncurry moreFun) . treeFold nextLevel
 
 -------------- Exercise 5 ----------------
 instance Show GuestList where
-  show (GL emps fun) = concat ["Total Fun: ", show fun, "\n"
-                              , unlines $ sort $ map empName emps
-                              ]
+  show (GL emps fun) = unlines ["Total Fun: " ++ show fun
+                               , unlines $ sort $ map empName emps
+                               ]
 
 main :: IO ()
 main = readFile "./company.txt" >>= print . maxFun . read
